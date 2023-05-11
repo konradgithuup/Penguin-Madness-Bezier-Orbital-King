@@ -1,0 +1,21 @@
+# ide/editor
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+*.vsix
+
+# unity
+Library/*
+Assets/*
+!Assets/scripts
+!Assets/synchronized_assets
+Logs/*
+Packages/*
+UserSettings/*
+Temp/*
+# i dont know about this one
+ProjectSettings/*
