@@ -1,0 +1,107 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using UnityEngine;
+
+// sebastian lague got me acting unwise https://youtu.be/n_RHttAaRCk
+namespace gdg_playground.Assets.scripts
+{
+    [System.Serializable]
+    public class BezierPath
+    {
+        [HideInInspector]
+        List<Vector2> points;
+
+        public Vector2 this[int i]
+        {
+            get
+            {
+                return points[i];
+            }
+        }
+        public int point_count
+        {
+            get
+            {
+                return points.Count;
+            }
+        }
+        public int segment_count
+        {
+            get
+            {
+                return (points.Count - 4) / 3 + 1;
+            }
+        }
+
+        public BezierPath(Vector2 center)
+        {
+            points = new List<Vector2> {
+                center + Vector2.left,
+                center + (Vector2.left + Vector2.up)*0.5f,
+                center + (Vector2.right + Vector2.down)*0.5f,
+                center + Vector2.right
+            };
+        }
+
+        public void Add(Vector2 anchor)
+        {
+            Vector2 trailing_control = points[points.Count - 1];
+            Vector2 trailing_anchor = points[points.Count - 2];
+
+            points.Add(trailing_anchor + (trailing_anchor - trailing_control));
+            points.Add((trailing_anchor + anchor) * 0.5f);
+            points.Add(anchor);
+        }
+
+        public int Get_Segment_Index(int x)
+        {
+            for (int i = 0; i < point_count; i += 3)
+            {
+                if (points[i].x < x)
+                {
+                    return i / 3;
+                }
+            }
+
+            return point_count - 1;
+        }
+
+        public Vector2[] Get_Points_For_Segment(int i)
+        {
+            return new Vector2[] {
+                points[i*3],
+                points[i*3 + 1],
+                points[i*3 + 2],
+                points[i*3 + 3]
+            };
+        }
+
+        public void Move_Point(int i, Vector2 new_pos)
+        {
+            points[i] = new_pos;
+        }
+
+        // good enough for now
+        public Vector2 Compute_Segment_At(int i, float t)
+        {
+            Vector2[] segment = Get_Points_For_Segment(i);
+
+            float cx = 3 * (segment[1].x - segment[0].x);
+            float cy = 3 * (segment[1].y - segment[0].y);
+            float bx = 3 * (segment[2].x - segment[1].x) - cx;
+            float by = 3 * (segment[2].y - segment[1].y) - cy;
+            float ax = segment[3].x - segment[0].x - cx - bx;
+            float ay = segment[3].y - segment[0].y - cy - by;
+            float Cube = t * t * t;
+            float Square = t * t;
+
+            float resX = (ax * Cube) + (bx * Square) + (cx * t) + segment[0].x;
+            float resY = (ay * Cube) + (by * Square) + (cy * t) + segment[0].y;
+
+            return new Vector2(resX, resY);
+        }
+    }
+}
