@@ -10,6 +10,8 @@ public class BezierPlatform : MonoBehaviour
 
     private GameObject platform = null;
 
+    private Material material = null;
+
     public BezierPlatform()
     {
 
@@ -19,7 +21,8 @@ public class BezierPlatform : MonoBehaviour
     void Start()
     {
         this.platform = this.transform.gameObject;
-        this.surface = new BezierPath(platform.transform.position);
+        this.material = platform.GetComponent<SpriteRenderer>().sharedMaterial;
+        this.surface = new BezierPath(platform.transform.position); 
 
         this.Remesh();
     }
@@ -33,11 +36,12 @@ public class BezierPlatform : MonoBehaviour
     public void Remesh() {
         
         // regenerate platform bounds
+        
         platform.transform.localScale = Vector3.one;
         Vector3 globalScale = new Vector3(3 + Random.Range(-1f, 1f), 1 + Random.Range(0f, 0.2f), 1);
         platform.transform.localScale = new Vector3 (globalScale.x/platform.transform.lossyScale.x, globalScale.y/platform.transform.lossyScale.y, globalScale.z/platform.transform.lossyScale.z);
-
-        Debug.Log(platform.transform.localScale);
+        
+        // Debug.Log(platform.transform.localScale);
 
         // regenerate surface
         Vector3 upper_left = platform.transform.TransformPoint(-0.5f,0.5f,0) - transform.position;
@@ -48,6 +52,24 @@ public class BezierPlatform : MonoBehaviour
             Vector2 interpolated_point = this.Randomized_Lerp(upper_left, upper_right, ((float)i)/(this.surface.point_count -1), is_anchor);
             this.surface.Move_Point(i, interpolated_point);    
         }
+
+        // update shader
+        float ratio = this.platform.transform.lossyScale.x/this.platform.transform.lossyScale.y;
+
+
+        Vector2[] segment = this.surface.Get_Points_For_Segment(0);
+        Debug.Log((segment[3] - new Vector2(platform.transform.position.x, platform.transform.position.y))/this.platform.transform.lossyScale.y);
+        /*
+        material.SetFloat("_Anchor1", segment[0].y + 0.5f);
+        material.SetFloat("_Control1", segment[1].y + 0.5f);
+        material.SetFloat("_Control2", segment[2].y + 0.5f);
+        material.SetFloat("_Anchor2", segment[3].y + 0.5f);
+        */
+
+        material.SetFloat("_Anchor1", segment[0].y/this.platform.transform.lossyScale.y + 0.5f);
+        material.SetFloat("_Control1", segment[1].y/this.platform.transform.lossyScale.y + 0.5f);
+        material.SetFloat("_Control2", segment[2].y/this.platform.transform.lossyScale.y + 0.5f);
+        material.SetFloat("_Anchor2", segment[3].y/this.platform.transform.lossyScale.y + 0.5f);
     }
 
     // debug
@@ -81,7 +103,7 @@ public class BezierPlatform : MonoBehaviour
     }
 
     private Vector2 Randomized_Lerp(Vector3 start, Vector3 end, float t, bool is_anchor) {
-        return (is_anchor)? Randomized_Lerp(start, end, t, 0, 0.3f) : Randomized_Lerp(start, end, t, 0.4f, 0.8f);
+        return (is_anchor)? Randomized_Lerp(start, end, t, 0, 0.3f) : Randomized_Lerp(start, end, t, 0.4f, 1.0f);
     }
 
     private Vector2 Randomized_Lerp(Vector3 start, Vector3 end, float t, float upper_bound, float lower_bound) {

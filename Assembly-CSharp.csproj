@@ -40,6 +40,9 @@
      <Compile Include="Assets\scripts\BezierPath.cs" />
      <Compile Include="Assets\scripts\passiveBezierObject.cs" />
      <Compile Include="Assets\scripts\PlatformManager.cs" />
+     <None Include="Assets\synchronized_assets\Shaders\Ocean.shader" />
+     <None Include="Assets\synchronized_assets\Material\NewUnlitShader.shader" />
+     <None Include="Assets\synchronized_assets\Shaders\BezierPlatformShader.shader" />
     <Reference Include="UnityEngine">
         <HintPath>O:\Program Files\Unity\Hub\Editor\2021.3.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

@@ -85,7 +85,7 @@ namespace gdg_playground.Assets.scripts
         }
 
         // good enough for now
-        public Vector2 Compute_Segment_At(int i, float t)
+        public Vector2 Compute_Segment_At_A(int i, float t)
         {
             Vector2[] segment = Get_Points_For_Segment(i);
 
@@ -102,6 +102,28 @@ namespace gdg_playground.Assets.scripts
             float resY = (ay * Cube) + (by * Square) + (cy * t) + segment[0].y;
 
             return new Vector2(resX, resY);
+        }
+
+        public Vector2 Compute_Segment_At(int i, float t) {
+            Vector2[] segment = Get_Points_For_Segment(i);
+
+            return Cerp(segment[0], segment[1], segment[2], segment[3], t);
+        }
+
+        private Vector2 Lerp(Vector2 a, Vector2 b, float t) {
+            return a + (b - a) * t;
+        }
+
+        private Vector2 Querp(Vector2 a, Vector2 b, Vector2 c, float t) {
+            Vector2 p0 = Lerp(a, b, t);
+            Vector2 p1 = Lerp(b, c, t);
+            return Lerp(p0, p1, t);
+        }
+
+        private Vector2 Cerp(Vector2 a, Vector2 b, Vector2 c, Vector2 d, float t) {
+            Vector2 p0 = Querp(a, b, c, t);
+            Vector2 p1 = Querp(b, c, d, t);
+            return Lerp(p0, p1, t);
         }
     }
 }
