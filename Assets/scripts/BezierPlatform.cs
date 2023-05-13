@@ -4,33 +4,29 @@ using UnityEngine;
 
 using gdg_playground.Assets.scripts;
 
-public class BezierPlatform : MonoBehaviour
+public class BezierPlatform : SecondOrderDynamics
 {
     private BezierPath surface = null;
 
     private GameObject platform = null;
 
-    private Material material = null;
-
-    public BezierPlatform()
-    {
-
-    }
+    private SpriteRenderer platform_renderer = null;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
+        base.Start();
         this.platform = this.transform.gameObject;
-        this.material = platform.GetComponent<SpriteRenderer>().sharedMaterial;
+        this.platform_renderer = platform.GetComponent<SpriteRenderer>();
         this.surface = new BezierPath(platform.transform.position); 
 
         this.Remesh();
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
-
+        base.Update();
     }
 
     public void Remesh() {
@@ -55,27 +51,21 @@ public class BezierPlatform : MonoBehaviour
 
         // update shader
         float ratio = this.platform.transform.lossyScale.x/this.platform.transform.lossyScale.y;
-
-
         Vector2[] segment = this.surface.Get_Points_For_Segment(0);
-        Debug.Log((segment[3] - new Vector2(platform.transform.position.x, platform.transform.position.y))/this.platform.transform.lossyScale.y);
-        /*
-        material.SetFloat("_Anchor1", segment[0].y + 0.5f);
-        material.SetFloat("_Control1", segment[1].y + 0.5f);
-        material.SetFloat("_Control2", segment[2].y + 0.5f);
-        material.SetFloat("_Anchor2", segment[3].y + 0.5f);
-        */
+        MaterialPropertyBlock props = new MaterialPropertyBlock();
 
-        material.SetFloat("_Anchor1", segment[0].y/this.platform.transform.lossyScale.y + 0.5f);
-        material.SetFloat("_Control1", segment[1].y/this.platform.transform.lossyScale.y + 0.5f);
-        material.SetFloat("_Control2", segment[2].y/this.platform.transform.lossyScale.y + 0.5f);
-        material.SetFloat("_Anchor2", segment[3].y/this.platform.transform.lossyScale.y + 0.5f);
+        props.SetFloat("_Anchor1", segment[0].y/this.platform.transform.lossyScale.y + 0.5f);
+        props.SetFloat("_Control1", segment[1].y/this.platform.transform.lossyScale.y + 0.5f);
+        props.SetFloat("_Control2", segment[2].y/this.platform.transform.lossyScale.y + 0.5f);
+        props.SetFloat("_Anchor2", segment[3].y/this.platform.transform.lossyScale.y + 0.5f);
+
+        this.platform_renderer.SetPropertyBlock(props);
     }
 
     // debug
     private void OnDrawGizmos()
     {
-        if (!Application.isPlaying)
+        if (!Application.isPlaying || !Debugger.Render_Gizmos())
         {
             return;
         }

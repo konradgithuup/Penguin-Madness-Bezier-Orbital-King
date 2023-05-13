@@ -25,6 +25,7 @@ Shader "Unlit/BezierPlatformShader"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
 
@@ -103,8 +104,14 @@ Shader "Unlit/BezierPlatformShader"
                 }
 
                 // apply gradient
-                half ratio = (i.uv.y/s) + _GradientShift;
-                c.rgb = _Color1 * (ratio) + _Color2 * (1 - ratio);
+                half ratio = (i.uv.y/s) + _GradientShift;  
+                float4 col = _Color1 * (ratio) + _Color2 * (1 - ratio);
+
+                half wave = i.uv.x;
+                ratio = wave*0.5/(1-(i.uv.y/s));
+                col = col * (1 - ratio) + _Color3 * (ratio);
+
+                c.rgb = col;
 
                 return c;
             }
