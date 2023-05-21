@@ -11,6 +11,8 @@
 # unity
 Library/*
 Assets/*
+!Assets/Resources
+!Assets/Scenes
 !Assets/scripts
 !Assets/synchronized_assets
 Logs/*
