@@ -45,6 +45,8 @@ public class SecondOrderDynamics : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
+        if (Time.deltaTime == 0f) return;
+
         if (Is_Violating_Reality()) {
             Debug.Log(this.transform.gameObject.name + ": Aborting dynamics update until parameters are restored");
             return;
