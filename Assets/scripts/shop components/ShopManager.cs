@@ -4,6 +4,11 @@ using TMPro;
 
 // following this Tutorial https://www.youtube.com/watch?v=EEtOt0Jf7PQ
 
+/*
+ * Manages the shops and it's components. Items can be purchased and become unavailable in Shop once they have been
+ * purchased once. 
+ */
+
 namespace gdg_playground.Assets.scripts
 {
     public class ShopManager : MonoBehaviour
@@ -51,6 +56,7 @@ namespace gdg_playground.Assets.scripts
             points -= shopItemsSo[buttonNum].basePrice;
             pointsUI.text = "Points: " + points;
             shopItemsSo[buttonNum].purchased = true;
+            // AddItem(itemsSo.Find(x => x.title == shopItemsSo[buttonNum].title)); // This should work to add them item to activeItems on purchase
             CheckPurchasable();
         }
 
