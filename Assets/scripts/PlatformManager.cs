@@ -20,6 +20,10 @@ public class PlatformManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseMenu.GameIsPaused)
+        {
+            return;
+        }
         Vector3 v3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         v3.y = WORLD_COORD_WATER_LEVEL;
         v3.z = 1f;
