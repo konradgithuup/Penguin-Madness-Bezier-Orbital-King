@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace gdg_playground.Assets.scripts.item_components
@@ -8,5 +9,7 @@ namespace gdg_playground.Assets.scripts.item_components
         public string description;
         public int basePrice;
         public bool purchased;
+        public Sprite icon;
+        public Variables effect; 
     }
 }
