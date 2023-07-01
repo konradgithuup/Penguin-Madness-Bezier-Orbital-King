@@ -14,6 +14,9 @@ namespace gdg_playground.Assets.scripts
         [HideInInspector]
         List<Vector2> points;
 
+        /// <summary>
+        /// Getter for accessing point at specified position
+        /// </summary>
         public Vector2 this[int i]
         {
             get
@@ -21,6 +24,10 @@ namespace gdg_playground.Assets.scripts
                 return points[i];
             }
         }
+
+        /// <summary>
+        /// Returns total number of points
+        /// </summary>
         public int point_count
         {
             get
@@ -28,6 +35,10 @@ namespace gdg_playground.Assets.scripts
                 return points.Count;
             }
         }
+
+        /// <summary>
+        /// Returns total number of segments
+        /// </summary>
         public int segment_count
         {
             get
@@ -36,6 +47,9 @@ namespace gdg_playground.Assets.scripts
             }
         }
 
+        /// <summary>
+        /// Initializes BezierPath by adding four points making up first cubic curve
+        /// </summary>
         public BezierPath(Vector2 center)
         {
             points = new List<Vector2> {
@@ -46,6 +60,9 @@ namespace gdg_playground.Assets.scripts
             };
         }
 
+        /// <summary>
+        /// Adds new segment (i.e. cubic curve) ending in given anchor position
+        /// </summary>
         public void Add(Vector2 anchor)
         {
             Vector2 trailing_control = points[points.Count - 1];
@@ -69,6 +86,9 @@ namespace gdg_playground.Assets.scripts
             return point_count - 1;
         }
 
+        /// <summary>
+        /// Returns the four points related to specified segment
+        /// </summary>
         public Vector2[] Get_Points_For_Segment(int i)
         {
             return new Vector2[] {
@@ -79,6 +99,9 @@ namespace gdg_playground.Assets.scripts
             };
         }
 
+        /// <summary>
+        /// Move specified point to specified position (without moving corresponding anchor points)
+        /// </summary>
         public void Move_Point(int i, Vector2 new_pos)
         {
             points[i] = new_pos;
