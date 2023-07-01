@@ -43,6 +43,7 @@
      <Compile Include="Assets\scripts\PlatformManager.cs" />
      <Compile Include="Assets\scripts\BezierPath.cs" />
      <Compile Include="Assets\scripts\passiveBezierObject.cs" />
+     <Compile Include="Assets\scripts\TrajectoryCalculator.cs" />
      <None Include="Assets\synchronized_assets\Shaders\Ocean.shader" />
      <None Include="Assets\synchronized_assets\Shaders\SkyPane.shader" />
      <None Include="Assets\synchronized_assets\Shaders\PlatformIndicator.shader" />

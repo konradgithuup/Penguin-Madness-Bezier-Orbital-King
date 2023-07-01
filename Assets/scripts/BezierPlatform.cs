@@ -29,6 +29,11 @@ public class BezierPlatform : SecondOrderDynamics
         base.Update();
     }
 
+    public Vector2 GetBezierPath(float t)
+    {
+        return this.surface.Compute_Segment_At(0, t);
+    }
+
     public void Remesh() {
         
         // regenerate platform bounds
