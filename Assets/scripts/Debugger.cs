@@ -9,6 +9,7 @@ static fields are used to easily publish the current config to other scripts.
 public class Debugger : MonoBehaviour
 {
     public bool renderGizmos = false;
+    public static bool isPaused = false;
     
     private static bool gizmo_render_flag_publisher = false;
 
