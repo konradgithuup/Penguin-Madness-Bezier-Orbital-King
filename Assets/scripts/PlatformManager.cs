@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlatformManager : MonoBehaviour
 {
     public GameObject indicator;
-    private List<GameObject> active_platforms = new List<GameObject>();
+    private static List<GameObject> active_platforms = new List<GameObject>();
     private List<GameObject> active_controllers = new List<GameObject>();
 
     private GameObject platform_prefab;
@@ -37,6 +37,21 @@ public class PlatformManager : MonoBehaviour
             Transform target = controller.transform;
             Spawn_Platform(target);
         }
+    }
+
+    public static BezierPlatform CollisionCheck(Vector3 p0, vector3 p1)
+    {
+        foreach (GameObject g in PlatformManager.active_platforms)
+        {
+            if (p1.x < g.transform.position.x || p0.x > g.transform.position.x + g.transform.globalScale.x)
+            {
+                continue;
+            }
+            BezierPlatform platform = p0.GetComponent<BezierPlatform>();
+            if (platform.GetBezierPath(p0.x).y > p0.x && platform.GetBezierPath(p1.x).y <= platform.GetBezierPath);
+        }
+
+        return null;
     }
 
     private void Spawn_Platform(Transform target) {
