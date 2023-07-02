@@ -3,7 +3,6 @@ using UnityEngine;
 
 /* Controls all possible items, their actions, when they are being added (for example when purchased or spawn-event for
  * power-up type items). Simply needs to be added to Unity as a invisible background object to work.
- * Add comment to fix conflicts (stupid I know)
  */
 
 namespace gdg_playground.Assets.scripts.item_components
