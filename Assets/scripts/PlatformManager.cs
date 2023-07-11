@@ -12,6 +12,7 @@ public class PlatformManager : MonoBehaviour
 
     private const float WORLD_COORD_WATER_LEVEL = -3.7f;
 
+    // Called before first frame update -> initializes ice floe prefab:
     void Start()
     {
         this.platform_prefab = Resources.Load("platform", typeof(GameObject)) as GameObject;
@@ -20,16 +21,22 @@ public class PlatformManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Skip method if game is paused:
         if (PauseMenu.GameIsPaused)
         {
             return;
         }
+
+        // Get position of water surface below player's mouse position:
         Vector3 v3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         v3.y = WORLD_COORD_WATER_LEVEL;
         v3.z = 1f;
+
+        // Display indicator right below player's mouse position:
         this.indicator.transform.position = v3;
         this.indicator.transform.position -= new Vector3(0,0.5f,0);
 
+        // Spawn ice floe if right mouse button was pressed down:
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             GameObject controller = new GameObject("platform_controller");
             controller.transform.position = v3;
@@ -39,8 +46,9 @@ public class PlatformManager : MonoBehaviour
         }
     }
 
-    public static BezierPlatform CollisionCheck(Vector3 p0, vector3 p1)
+    public static BezierPlatform CollisionCheck(Vector3 p0, Vector3 p1)
     {
+        /*
         foreach (GameObject g in PlatformManager.active_platforms)
         {
             if (p1.x < g.transform.position.x || p0.x > g.transform.position.x + g.transform.globalScale.x)
@@ -50,16 +58,20 @@ public class PlatformManager : MonoBehaviour
             BezierPlatform platform = p0.GetComponent<BezierPlatform>();
             if (platform.GetBezierPath(p0.x).y > p0.x && platform.GetBezierPath(p1.x).y <= platform.GetBezierPath);
         }
+        */
 
         return null;
     }
 
+    /// <summary>
+    /// Spawns new platform (ice floe) at specified position at water level.
+    /// </summary>
     private void Spawn_Platform(Transform target) {
         Vector3 spawn_point = new Vector3(target.position.x, WORLD_COORD_WATER_LEVEL-5, target.position.z);
         Debug.Log("create new platform at " + spawn_point + ", target " + target.position);
         GameObject p = Instantiate(this.platform_prefab, spawn_point, Quaternion.identity);
         p.GetComponent<BezierPlatform>().target = target;
 
-        this.active_platforms.Add(p);
+       active_platforms.Add(p);
     }
 }

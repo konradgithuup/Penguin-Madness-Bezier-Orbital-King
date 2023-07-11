@@ -23,8 +23,8 @@ using UnityEngine;
 /// </summary>
 public class TrajectoryCalculator : MonoBehaviour
 {
-    private float dx;
-    private float dy;
+    private float dx;               // estimation of dx at end of bezier path
+    private float dy;               // estimation of dy at end of bezier path
     public float v0 = 100f;
     public float g = 9.81f;
 
@@ -41,6 +41,9 @@ public class TrajectoryCalculator : MonoBehaviour
         this.dy = p1.y - p0.y;
     }
 
+    /// <summary>
+    /// Displays calculated parabola during runtime if 'show gizmos' checkbox is enabled in Debugger.
+    /// </summary>
     private void OnDrawGizmos()
     {
         if (!Application.isPlaying || !Debugger.Render_Gizmos())
@@ -59,6 +62,7 @@ public class TrajectoryCalculator : MonoBehaviour
         } while (pos.y >= -10 && pos.y < 10);
     }
 
+    // Calculation of parabola using dx and dy:
     private float CalcY(float x)
     {
         // TODO winkel nicht jedes mal bestimmen
