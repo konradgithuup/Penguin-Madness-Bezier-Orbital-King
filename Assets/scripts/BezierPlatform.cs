@@ -67,6 +67,11 @@ public class BezierPlatform : SecondOrderDynamics
         this.platform_renderer.SetPropertyBlock(props);
     }
 
+    public void moveTo(Vector3 target)
+    {
+        transform.position = target;
+    }
+
     // debug
     private void OnDrawGizmos()
     {

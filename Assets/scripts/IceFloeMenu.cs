@@ -6,31 +6,37 @@ using UnityEngine.UI;
 
 public class IceFloeMenu : MonoBehaviour
 {
+    private PlatformManager platformManager;
+
     public GameObject[] IceFloePanels;
     private GameObject[] activePanels;
 
-    private const int NUM_ACTIVE_PANELS = 5;
+    private static Color defaultPanelColor = new Color(0.6117647f, 0.7607843f, 0.8f, 0.2980392f);
+    private static Color selectedPanelColor = new Color(0.7987421f, 0.9580713f, 1f, 0.6f);
 
-    private Color defaultPanelColor = new Color(0.6117647f, 0.7607843f, 0.8f, 0.2980392f);
-    private Color selectedPanelColor = new Color(0.7987421f, 0.9580713f, 1f, 0.6f);
+    private const double TOTAL_MOUSE_SCROLL_DELAY = 0.07;
+    private double mouseScrollDelay = 0.0;
 
-    public int selectedPanel = 0;
+    public int id = 42;
 
     // Start is called before the first frame update
     void Start()
     {
-        // deactivate not unlocked panels:
-        for (int i = IceFloePanels.Length - 1; i >= NUM_ACTIVE_PANELS; i--)
+        // Deactivate not unlocked panels:
+        for (int i = IceFloePanels.Length - 1; i >= PlatformManager.numIceFloes; i--)
         {
             IceFloePanels[i].SetActive(false);
         }
 
-        // copy unlocked panels into new array (for convenience):
-        activePanels = new GameObject[NUM_ACTIVE_PANELS];
-        for (int i = 0; i < NUM_ACTIVE_PANELS; i++)
+        // Copy unlocked panels into new array (for convenience):
+        activePanels = new GameObject[PlatformManager.numIceFloes];
+        for (int i = 0; i < PlatformManager.numIceFloes; i++)
         {
             activePanels[i] = IceFloePanels[i];
         }
+
+        // Save instance of PlatformManager:
+        platformManager = GameObject.Find("PlatformManager").GetComponent<PlatformManager>();
     }
 
     // Supported keyCodes:
@@ -43,14 +49,11 @@ public class IceFloeMenu : MonoBehaviour
         new KeyCode[2] { KeyCode.Alpha5, KeyCode.Keypad5 },
     };
 
-    private double TOTAL_MOUSE_SCROLL_DELAY = 0.07;
-    private double mouseScrollDelay = 0.0;
-
     // Update is called once per frame
     void Update()
     {
         // look for press of number buttons and select specified panel:
-        for (int i = 0; i < NUM_ACTIVE_PANELS; i++)
+        for (int i = 0; i < PlatformManager.numIceFloes; i++)
         {
             if (Input.GetKeyDown(keyCodes[i][0]) || Input.GetKeyDown(keyCodes[i][1]))
             {
@@ -63,16 +66,16 @@ public class IceFloeMenu : MonoBehaviour
         if (mouseScrollDelay <= 0.01)
         {
             // scrolling up:
-            if (Input.mouseScrollDelta.y > 0.5f && selectedPanel > 0)
+            if (Input.mouseScrollDelta.y > 0.5f && PlatformManager.selectedPlatform > 0)
             {
-                updateSelectedPanel(selectedPanel - 1);
+                updateSelectedPanel(PlatformManager.selectedPlatform - 1);
                 mouseScrollDelay = TOTAL_MOUSE_SCROLL_DELAY;
             }
 
             // scrolling down:
-            else if (Input.mouseScrollDelta.y < -0.5f && selectedPanel < NUM_ACTIVE_PANELS - 1)
+            else if (Input.mouseScrollDelta.y < -0.5f && PlatformManager.selectedPlatform < PlatformManager.numIceFloes - 1)
             {
-                updateSelectedPanel(selectedPanel + 1);
+                updateSelectedPanel(PlatformManager.selectedPlatform + 1);
                 mouseScrollDelay = TOTAL_MOUSE_SCROLL_DELAY;
             }
         }
@@ -83,9 +86,9 @@ public class IceFloeMenu : MonoBehaviour
     /// </summary>
     private void updateSelectedPanel(int newPanelID)
     {
-        changePanelColor(activePanels[selectedPanel], defaultPanelColor);
+        changePanelColor(activePanels[PlatformManager.selectedPlatform], defaultPanelColor);
         changePanelColor(activePanels[newPanelID], selectedPanelColor);
-        selectedPanel = newPanelID;
+        PlatformManager.selectedPlatform = newPanelID;
     }
 
     /// <summary>
@@ -94,5 +97,25 @@ public class IceFloeMenu : MonoBehaviour
     private void changePanelColor(GameObject panel, Color newColor)
     {
         panel.GetComponent<Image>().color = newColor;
+    }
+
+    public void updateIceFloeImage(GameObject oldIceFloe, GameObject newIceFloe, int panelID)
+    {
+        // disable and restore old ice floe:
+        if (oldIceFloe != null) { 
+            oldIceFloe.SetActive(false); 
+        }
+
+        // move and enable new ice floe:
+        Vector3 localPosition;
+        Quaternion localQuaternion;
+        activePanels[panelID].GetComponent<Transform>().GetLocalPositionAndRotation(out localPosition, out localQuaternion);
+
+        newIceFloe.transform.Translate(Vector3.left * panelID * 1000);
+
+
+        Image image = activePanels[panelID].transform.GetChild(0).gameObject.GetComponent<Image>();
+        //image.GetComponent<SpriteRenderer>().sprite = iceFloe.GetComponent<SpriteRenderer>().sprite;
+        //image.GetComponent<SpriteRenderer>().material = iceFloe.GetComponent<SpriteRenderer>().material;
     }
 }

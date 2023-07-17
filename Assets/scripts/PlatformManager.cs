@@ -4,18 +4,43 @@ using UnityEngine;
 
 public class PlatformManager : MonoBehaviour
 {
+    private IceFloeMenu iceFloeMenu;
+
     public GameObject indicator;
     private static List<GameObject> active_platforms = new List<GameObject>();
     private List<GameObject> active_controllers = new List<GameObject>();
+
+    private static GameObject[] nextPlatforms;
 
     private GameObject platform_prefab;
 
     private const float WORLD_COORD_WATER_LEVEL = -3.7f;
 
-    // Called before first frame update -> initializes ice floe prefab:
+    public static int numIceFloes = 4;
+    public static int selectedPlatform = 0;
+
+    // Start is called before the first frame update:
     void Start()
     {
         this.platform_prefab = Resources.Load("platform", typeof(GameObject)) as GameObject;
+
+        // "buffer" platforms to display in ice floe menu:
+        nextPlatforms = new GameObject[numIceFloes];
+        for (int i = 0; i < numIceFloes; i++)
+        {
+            nextPlatforms[i] = Instantiate(this.platform_prefab);
+            nextPlatforms[i].SetActive(false);
+        }
+        nextPlatforms[0].SetActive(true);
+
+        // Save instance of iceFloeMenu:
+        iceFloeMenu = GameObject.Find("Canvas").GetComponent<IceFloeMenu>();
+
+        // Display platforms in ice floe menu:
+        for (int i = 0; i < nextPlatforms.Length; i++)
+        {
+            // iceFloeMenu.updateIceFloeImage(nextPlatforms[i], null, i++);
+        }
     }
 
     // Update is called once per frame
@@ -25,6 +50,19 @@ public class PlatformManager : MonoBehaviour
         if (PauseMenu.GameIsPaused)
         {
             return;
+        }
+
+        // Test Translate:
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            // nextPlatforms[0].GetComponent<BezierPlatform>().translate(Vector3.right * 5);
+            nextPlatforms[0].transform.Translate(Vector3.right * 5, Space.World);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            nextPlatforms[0].transform.position = new Vector3(-1.0f, 0f, 0f);
+            Debug.Log("Target position: " + iceFloeMenu.IceFloePanels[0].transform.position);
         }
 
         // Get position of water surface below player's mouse position:

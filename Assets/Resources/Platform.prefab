@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6949207336111468672}
   - component: {fileID: -1526886470662211237}
   - component: {fileID: 6179099687821829583}
+  - component: {fileID: 2349782083694098496}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -129,7 +130,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: -2056365511
   m_Mesh: {fileID: 0}
-  m_InstanceId: 34304
+  m_InstanceId: 44634
   m_LocalBounds:
     m_Center: {x: 0, y: -0.125, z: 0}
     m_Extent: {x: 0.5, y: 0.375, z: 0}
@@ -145,8 +146,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e730d6d3cccae34d81a9431991ac4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dx: 0
-  dy: 0
   v0: 0
   g: 9.81
   platform: {fileID: 7369855795959615423}
+--- !u!114 &2349782083694098496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7369855795959615423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e08b6098329b15468a8fbc144db378e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
