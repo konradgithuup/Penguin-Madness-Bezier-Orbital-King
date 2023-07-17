@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class IceFloeMenu : MonoBehaviour
     public GameObject[] IceFloePanels;
     private GameObject[] activePanels;
 
-    private const int NUM_ACTIVE_PANELS = 3;
+    private const int NUM_ACTIVE_PANELS = 5;
 
     private Color defaultPanelColor = new Color(0.6117647f, 0.7607843f, 0.8f, 0.2980392f);
     private Color selectedPanelColor = new Color(0.7987421f, 0.9580713f, 1f, 0.6f);
@@ -42,6 +43,9 @@ public class IceFloeMenu : MonoBehaviour
         new KeyCode[2] { KeyCode.Alpha5, KeyCode.Keypad5 },
     };
 
+    private double TOTAL_MOUSE_SCROLL_DELAY = 0.07;
+    private double mouseScrollDelay = 0.0;
+
     // Update is called once per frame
     void Update()
     {
@@ -50,11 +54,38 @@ public class IceFloeMenu : MonoBehaviour
         {
             if (Input.GetKeyDown(keyCodes[i][0]) || Input.GetKeyDown(keyCodes[i][1]))
             {
-                changePanelColor(activePanels[selectedPanel], defaultPanelColor);
-                changePanelColor(activePanels[i], selectedPanelColor);
-                selectedPanel = i;
+                updateSelectedPanel(i); break;
             }
         }
+
+        // look for mouse scroll data and move selection up or down:
+        if (mouseScrollDelay > 0.01) { mouseScrollDelay -= Time.deltaTime; }
+        if (mouseScrollDelay <= 0.01)
+        {
+            // scrolling up:
+            if (Input.mouseScrollDelta.y > 0.5f && selectedPanel > 0)
+            {
+                updateSelectedPanel(selectedPanel - 1);
+                mouseScrollDelay = TOTAL_MOUSE_SCROLL_DELAY;
+            }
+
+            // scrolling down:
+            else if (Input.mouseScrollDelta.y < -0.5f && selectedPanel < NUM_ACTIVE_PANELS - 1)
+            {
+                updateSelectedPanel(selectedPanel + 1);
+                mouseScrollDelay = TOTAL_MOUSE_SCROLL_DELAY;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Updates selected panel by updating selectedPanel and changing panel colors.
+    /// </summary>
+    private void updateSelectedPanel(int newPanelID)
+    {
+        changePanelColor(activePanels[selectedPanel], defaultPanelColor);
+        changePanelColor(activePanels[newPanelID], selectedPanelColor);
+        selectedPanel = newPanelID;
     }
 
     /// <summary>
