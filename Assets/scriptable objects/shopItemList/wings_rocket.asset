@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa5885d5b9669a2eadeeeadec21cdd6, type: 3}
   m_Name: wings_rocket
   m_EditorClassIdentifier: 
-  title: Armor
-  description: Shiny Chainmail
-  basePrice: 10
+  title: Rocket-Wings
+  description: Nanomachines, Son!
+  basePrice: 100
+  purchased: 0
