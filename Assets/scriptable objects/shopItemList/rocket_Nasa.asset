@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: efa5885d5b9669a2eadeeeadec21cdd6, type: 3}
-  m_Name: Armor 3
+  m_Name: rocket_Nasa
   m_EditorClassIdentifier: 
-  title: Armor
-  description: Shiny Chainmail
-  basePrice: 10
+  title: Nasa Rocket
+  description: Don't ask where i found this.
+  basePrice: 1337
+  purchased: 0
