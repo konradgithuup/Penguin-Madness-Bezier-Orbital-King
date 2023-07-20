@@ -6,11 +6,13 @@ using gdg_playground.Assets.scripts;
 
 public class BezierPlatform : SecondOrderDynamics
 {
-    private BezierPath surface = null;
+    public BezierPath surface = null;
 
     private GameObject platform = null;
 
     private SpriteRenderer platform_renderer = null;
+
+    public MaterialPropertyBlock props;
 
     // Start is called before the first frame update
     new void Start()
@@ -19,6 +21,8 @@ public class BezierPlatform : SecondOrderDynamics
         this.platform = this.transform.gameObject;
         this.platform_renderer = platform.GetComponent<SpriteRenderer>();
         this.surface = new BezierPath(platform.transform.position); 
+
+        this.props = new MaterialPropertyBlock();
 
         this.Remesh();
     }
@@ -57,7 +61,7 @@ public class BezierPlatform : SecondOrderDynamics
         // update shader
         float ratio = this.platform.transform.lossyScale.x/this.platform.transform.lossyScale.y;
         Vector2[] segment = this.surface.Get_Points_For_Segment(0);
-        MaterialPropertyBlock props = new MaterialPropertyBlock();
+        // MaterialPropertyBlock props = new MaterialPropertyBlock();
 
         props.SetFloat("_Anchor1", segment[0].y/this.platform.transform.lossyScale.y + 0.5f);
         props.SetFloat("_Control1", segment[1].y/this.platform.transform.lossyScale.y + 0.5f);
@@ -65,6 +69,9 @@ public class BezierPlatform : SecondOrderDynamics
         props.SetFloat("_Anchor2", segment[3].y/this.platform.transform.lossyScale.y + 0.5f);
 
         this.platform_renderer.SetPropertyBlock(props);
+
+        // Draw UI element:
+        
     }
 
     public void moveTo(Vector3 target)
