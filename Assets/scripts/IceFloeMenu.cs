@@ -1,15 +1,17 @@
+using gdg_playground.Assets.scripts;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
 public class IceFloeMenu : MonoBehaviour
 {
     private PlatformManager platformManager;
 
     public GameObject[] IceFloePanels;
-    private GameObject[] activePanels;
+    public GameObject[] activePanels;
 
     private static Color defaultPanelColor = new Color(0.6117647f, 0.7607843f, 0.8f, 0.2980392f);
     private static Color selectedPanelColor = new Color(0.7987421f, 0.9580713f, 1f, 0.6f);
@@ -99,23 +101,19 @@ public class IceFloeMenu : MonoBehaviour
         panel.GetComponent<Image>().color = newColor;
     }
 
-    public void updateIceFloeImage(GameObject oldIceFloe, GameObject newIceFloe, int panelID)
+    public void updateIceFloe(BezierPath newPath, int panelID)
     {
-        // disable and restore old ice floe:
-        if (oldIceFloe != null) { 
-            oldIceFloe.SetActive(false); 
-        }
 
-        // move and enable new ice floe:
-        Vector3 localPosition;
-        Quaternion localQuaternion;
-        activePanels[panelID].GetComponent<Transform>().GetLocalPositionAndRotation(out localPosition, out localQuaternion);
+        // BezierPlatform nextPlatform = PlatformManager.nextPlatforms[panelID].GetComponent<BezierPlatform>();
+        // SpriteRenderer renderer = activePanels[panelID].transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
+        //Material mat = nextPlatform.GetComponent<SpriteRenderer>().material;
+        //image.material = mat;
+        // image.SetProper
 
-        newIceFloe.transform.Translate(Vector3.left * panelID * 1000);
+        // renderer.SetPropertyBlock(nextPlatform.props);
 
-
-        Image image = activePanels[panelID].transform.GetChild(0).gameObject.GetComponent<Image>();
-        //image.GetComponent<SpriteRenderer>().sprite = iceFloe.GetComponent<SpriteRenderer>().sprite;
-        //image.GetComponent<SpriteRenderer>().material = iceFloe.GetComponent<SpriteRenderer>().material;
+        IceFloePolygon polygon = activePanels[panelID].transform.GetChild(0).gameObject.GetComponent<IceFloePolygon>();
+        polygon.bezierPath = newPath;
+        polygon.Redraw();
     }
 }

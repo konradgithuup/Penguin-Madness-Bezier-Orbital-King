@@ -1,6 +1,11 @@
+using gdg_playground.Assets.scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class PlatformManager : MonoBehaviour
 {
@@ -10,14 +15,16 @@ public class PlatformManager : MonoBehaviour
     private static List<GameObject> active_platforms = new List<GameObject>();
     private List<GameObject> active_controllers = new List<GameObject>();
 
-    private static GameObject[] nextPlatforms;
+    public static GameObject[] nextPlatforms;
 
     private GameObject platform_prefab;
 
     private const float WORLD_COORD_WATER_LEVEL = -3.7f;
 
-    public static int numIceFloes = 4;
+    public static int numIceFloes = 5;
     public static int selectedPlatform = 0;
+
+    private Boolean updateUI = true;
 
     // Start is called before the first frame update:
     void Start()
@@ -29,9 +36,9 @@ public class PlatformManager : MonoBehaviour
         for (int i = 0; i < numIceFloes; i++)
         {
             nextPlatforms[i] = Instantiate(this.platform_prefab);
-            nextPlatforms[i].SetActive(false);
+            nextPlatforms[i].GetComponent<SpriteRenderer>().enabled = false;
+            nextPlatforms[i].GetComponent<ShadowCaster2D>().enabled = false;
         }
-        nextPlatforms[0].SetActive(true);
 
         // Save instance of iceFloeMenu:
         iceFloeMenu = GameObject.Find("Canvas").GetComponent<IceFloeMenu>();
@@ -39,30 +46,29 @@ public class PlatformManager : MonoBehaviour
         // Display platforms in ice floe menu:
         for (int i = 0; i < nextPlatforms.Length; i++)
         {
-            // iceFloeMenu.updateIceFloeImage(nextPlatforms[i], null, i++);
+            iceFloeMenu.updateIceFloe(nextPlatforms[i].GetComponent<BezierPlatform>().surface, i);
         }
     }
+
+    private GameObject child;
 
     // Update is called once per frame
     void Update()
     {
+        // Update UI if neccessary:
+        if (updateUI)
+        {
+            for (int i = 0; i < nextPlatforms.Length; i++)
+            {
+                iceFloeMenu.updateIceFloe(nextPlatforms[i].GetComponent<BezierPlatform>().surface, i);
+            }
+            updateUI = false;
+        }
+
         // Skip method if game is paused:
         if (PauseMenu.GameIsPaused)
         {
             return;
-        }
-
-        // Test Translate:
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            // nextPlatforms[0].GetComponent<BezierPlatform>().translate(Vector3.right * 5);
-            nextPlatforms[0].transform.Translate(Vector3.right * 5, Space.World);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            nextPlatforms[0].transform.position = new Vector3(-1.0f, 0f, 0f);
-            Debug.Log("Target position: " + iceFloeMenu.IceFloePanels[0].transform.position);
         }
 
         // Get position of water surface below player's mouse position:
