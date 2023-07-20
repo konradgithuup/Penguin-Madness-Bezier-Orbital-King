@@ -8,6 +8,5 @@ namespace gdg_playground.Assets.scripts
         public string title;
         public string description;
         public int basePrice;
-        public bool purchased;
     }
 }
