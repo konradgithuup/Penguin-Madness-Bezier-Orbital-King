@@ -104,14 +104,6 @@ public class IceFloeMenu : MonoBehaviour
     public void updateIceFloe(BezierPath newPath, int panelID)
     {
 
-        // BezierPlatform nextPlatform = PlatformManager.nextPlatforms[panelID].GetComponent<BezierPlatform>();
-        // SpriteRenderer renderer = activePanels[panelID].transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
-        //Material mat = nextPlatform.GetComponent<SpriteRenderer>().material;
-        //image.material = mat;
-        // image.SetProper
-
-        // renderer.SetPropertyBlock(nextPlatform.props);
-
         IceFloePolygon polygon = activePanels[panelID].transform.GetChild(0).gameObject.GetComponent<IceFloePolygon>();
         polygon.bezierPath = newPath;
         polygon.Redraw();
