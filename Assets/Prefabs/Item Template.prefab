@@ -514,7 +514,7 @@ GameObject:
   - component: {fileID: 8390182665876985367}
   - component: {fileID: 2854404078462240585}
   m_Layer: 5
-  m_Name: StartGame
+  m_Name: Buy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
