@@ -15,9 +15,12 @@ namespace gdg_playground.Assets.scripts
     public class ShopManager : MonoBehaviour
     {
         public static int points;
+<<<<<<< HEAD
         public static int numIceFloes = 3;
         public static bool[] isPurchased = { false, false, false, false, false, false };
 
+=======
+>>>>>>> main
         public TMP_Text pointsUI;
         public ShopItemSO[] shopItemsSo;
         public GameObject[] shopPanels;

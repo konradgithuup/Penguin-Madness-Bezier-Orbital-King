@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa5885d5b9669a2eadeeeadec21cdd6, type: 3}
   m_Name: tiles_plus2
   m_EditorClassIdentifier: 
-  title: Slicky Ramp
-  description: It's.. slicky..
-  basePrice: 50
+  title: +1 Tiles
+  description: Bob the Builder itself appeared!
+  basePrice: 100
   purchased: 0
