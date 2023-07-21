@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 // following this Tutorial https://www.youtube.com/watch?v=EEtOt0Jf7PQ
 
@@ -13,61 +14,70 @@ namespace gdg_playground.Assets.scripts
 {
     public class ShopManager : MonoBehaviour
     {
-        public int points;
+        public static int points;
+        public static int numIceFloes = 3;
+        public static bool[] isPurchased = { false, false, false, false, false, false };
+
         public TMP_Text pointsUI;
         public ShopItemSO[] shopItemsSo;
-        public GameObject[] shopPanelsGo;
-        public ShopTemplate[] shopPanels;
+        public GameObject[] shopPanels;
         public Button[] purchaseButtons;
+        
 
         private void Start()
         {
-            for (var i = 0; i < shopItemsSo.Length; i++)
+            // Set UI:
+            pointsUI.text = "Points\n" + points;
+            for (int i = 0; i < shopPanels.Length; i++)
             {
-                shopPanelsGo[i].SetActive(true);
+                UpdatePanel(shopItemsSo[i],i);
             }
-
-            pointsUI.text = "Points: " + points;
-            LoadPanels();
-            CheckPurchasable();
         }
 
-
-        public void AddPoints()
+        private void Update()
         {
-            points++;
-            pointsUI.text = "Points: " + points;
-            CheckPurchasable();
+            // TODO: remove
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                AddPoints(100);
+            }
         }
 
-        private void CheckPurchasable()
+        public void AddPoints(int numPoints)
         {
-            for (var i = 0; i < shopItemsSo.Length; i++)
-            {
-                purchaseButtons[i].interactable = false;
-                if (shopItemsSo[i].purchased) continue;
-                purchaseButtons[i].interactable = points >= shopItemsSo[i].basePrice;
-            }
+            points += numPoints;
+            pointsUI.text = "Points\n" + points;
+        }
+
+        private void UpdatePanel(ShopItemSO item, int panelID)
+        {
+            // Get panel elements:
+            TMP_Text titleText = shopPanels[panelID].transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+            TMP_Text descriptionText = shopPanels[panelID].transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+            TMP_Text priceText = shopPanels[panelID].transform.GetChild(2).gameObject.GetComponent<TMP_Text>();
+            Button purchaseButton = purchaseButtons[panelID];
+            TMP_Text buttonText = purchaseButton.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+
+            // Set panel elements:
+            titleText.text = item.title;
+            descriptionText.text = item.description;
+            priceText.text = item.basePrice.ToString();
+            buttonText.text = isPurchased[panelID] ? "sold" : "buy";
         }
 
         public void PurchaseItem(int buttonNum)
         {
-            if (points < shopItemsSo[buttonNum].basePrice) return;
+            // Check and update points:
+            if (points < shopItemsSo[buttonNum].basePrice || isPurchased[buttonNum]) return;
             points -= shopItemsSo[buttonNum].basePrice;
-            pointsUI.text = "Points: " + points;
-            shopItemsSo[buttonNum].purchased = true;
-            // AddItem(itemsSo.Find(x => x.title == shopItemsSo[buttonNum].title)); // This should work to add them item to activeItems on purchase
-            CheckPurchasable();
-        }
 
-        private void LoadPanels()
-        {
-            for (var i = 0; i < shopItemsSo.Length; i++)
-            {
-                shopPanels[i].titleText.text = shopItemsSo[i].title;
-                shopPanels[i].descriptionText.text = shopItemsSo[i].description;
-                shopPanels[i].priceText.text = shopItemsSo[i].basePrice.ToString();
-            }
+            // Update shop state:
+            isPurchased[buttonNum] = true;
+            if (buttonNum == 3 || buttonNum == 4) { numIceFloes++; }
+
+            // Update shop ui:
+            pointsUI.text = "Points\n" + points;
+            UpdatePanel(shopItemsSo[buttonNum], buttonNum);
         }
     }
 }
