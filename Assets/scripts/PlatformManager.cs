@@ -39,9 +39,9 @@ public class PlatformManager : MonoBehaviour
         }
     }
 
-    public static BezierPlatform CollisionCheck(Vector3 p0, vector3 p1)
+    public static BezierPlatform CollisionCheck(Vector3 p0, Vector3 p1)
     {
-        foreach (GameObject g in PlatformManager.active_platforms)
+        /*foreach (GameObject g in PlatformManager.active_platforms)
         {
             if (p1.x < g.transform.position.x || p0.x > g.transform.position.x + g.transform.globalScale.x)
             {
@@ -50,7 +50,7 @@ public class PlatformManager : MonoBehaviour
             BezierPlatform platform = p0.GetComponent<BezierPlatform>();
             if (platform.GetBezierPath(p0.x).y > p0.x && platform.GetBezierPath(p1.x).y <= platform.GetBezierPath);
         }
-
+        */
         return null;
     }
 
@@ -60,6 +60,6 @@ public class PlatformManager : MonoBehaviour
         GameObject p = Instantiate(this.platform_prefab, spawn_point, Quaternion.identity);
         p.GetComponent<BezierPlatform>().target = target;
 
-        this.active_platforms.Add(p);
+        active_platforms.Add(p);
     }
 }
