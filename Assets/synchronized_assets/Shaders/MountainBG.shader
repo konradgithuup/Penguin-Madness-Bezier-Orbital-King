@@ -1,15 +1,12 @@
-Shader "Unlit/OceanShader"
+Shader "Unlit/MountainShader"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Color1 ("Colour 1", Color) = (1,1,1,1)
         _Color2 ("Colour 2", Color) = (0,0,0,1)
-        _Sun_Color ("Colour 3", Color) = (1,1,1,1)
-        _Sun_Angle ("Sun Angle", Float) = -45
-        _Speed ("Speed", Float) = 10
         _XOffset ("X Offset", Float) = 0
-        _GradientShift ("Gradient Shift", Range(-1,1)) = 0
+        _GradientShift ("Gradient Shift", Range(0,1)) = 0
     }
     SubShader
     {
@@ -54,8 +51,6 @@ Shader "Unlit/OceanShader"
 
             fixed4 _Color1;
             fixed4 _Color2;
-            fixed4 _Sun_Color;
-            float _Speed;
             float _XOffset;
             half _GradientShift;
             float4 _MainTex_TexelSize;
@@ -67,39 +62,21 @@ Shader "Unlit/OceanShader"
 
                 // apply cutoff
                 float4 posWorld = mul(unity_ObjectToWorld, i.uv);
-                float wave = 0.5;
+                float wave = 0.0;
                 //wave += cos(posWorld.y) + cos(posWorld.x + _Time * _Speed/10)/50;
                 
-                wave += (sin(posWorld.y) + sin(posWorld.x*10 + _XOffset*10 + _Time*_Speed/3*9))/80;
-                wave += (sin(posWorld.y) + sin(posWorld.x*5 + _XOffset*5 +  _Time*_Speed/3*3))/40;
+                wave += (sin(posWorld.x/10 + _XOffset/10))/3;
+                wave += (sin(posWorld.x/3 + _XOffset/3))/10;
 
                 if (wave < i.uv.y) {
                     return (0,0,0,0);
                 }
 
                 // apply gradient
-                float4 col = _Color1;
-
-                wave = cos(posWorld.y) + cos(posWorld.x + _XOffset + _Time * _Speed/10)/50;
-
-                half ratio = 0.5 + 0.5*cos(posWorld.x/4 + _Time * _Speed/100);
-                col += (ratio/10) * _Sun_Color + (0, 0, 0, 0) * (1-ratio);
-
-                ratio = (i.uv.y / wave) + _GradientShift;
-                col = col * (ratio) + _Color2 * (1 - ratio);
-                
-                wave = 0.5;
-                wave += (sin(posWorld.y) + sin(posWorld.x*10 + _XOffset*10 + _Time*_Speed/3*9))/80;
-                wave += (sin(posWorld.y) + sin(posWorld.x*5 + _XOffset*5 + _Time*_Speed/3*3))/40;
-
-                ratio = (i.uv.y / wave);
-                col = col * ratio + _Color2 * (1 - ratio);
-
-                ratio = (i.uv.y / wave) + _GradientShift;
-                c = col;
-                c.a = ratio*0.5 + (1 - ratio)*1.0;
+                float ratio = (i.uv.y / (2 * wave * _GradientShift));
+                float4 col = _Color1 * ratio + _Color2 * (1 - ratio);
    
-                return c;
+                return col;
             }
             ENDCG
         }

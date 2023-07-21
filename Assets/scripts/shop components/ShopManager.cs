@@ -16,6 +16,9 @@ namespace gdg_playground.Assets.scripts
     {
         public static int points = 0;
         public static int numIceFloes = 3;
+        public static float g_factor = 1.0f;
+        public static bool rocket = false;
+        public static bool hax = false;
         public static bool[] isPurchased = { false, false, false, false, false, false };
 
         public TMP_Text pointsUI;
@@ -64,6 +67,12 @@ namespace gdg_playground.Assets.scripts
             // Update shop state:
             isPurchased[buttonNum] = true;
             if (buttonNum == 3 || buttonNum == 4) { numIceFloes++; }
+
+            if (buttonNum == 0 || buttonNum == 1) { g_factor -= 0.15f; }
+
+            if (buttonNum == 2) { hax = true; }
+
+            if (buttonNum == 5) { rocket = true; }
 
             // Update shop ui:
             pointsUI.text = "Points\n" + points;

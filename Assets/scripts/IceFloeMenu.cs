@@ -39,6 +39,7 @@ public class IceFloeMenu : MonoBehaviour
 
         // Save instance of PlatformManager:
         platformManager = GameObject.Find("PlatformManager").GetComponent<PlatformManager>();
+        updateSelectedPanel(0);
     }
 
     // Supported keyCodes:

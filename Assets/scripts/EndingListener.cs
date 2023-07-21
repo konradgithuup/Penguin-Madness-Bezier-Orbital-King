@@ -25,7 +25,7 @@ public class EndingListener : MonoBehaviour
     {
         penguHeight = penguBody.transform.localPosition.y;
         //Win
-        if(/*penguSpeed.magnitude >= 11200 /* m/s  &&*/ penguHeight >= 4){
+        if(/*penguSpeed.magnitude >= 11200 /* m/s  &&*/ penguHeight >= 50){
             EndingScreenManager.gameWon = true;
             SceneManager.LoadScene(5);
         }

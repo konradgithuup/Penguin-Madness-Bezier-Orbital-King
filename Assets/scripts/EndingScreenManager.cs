@@ -26,7 +26,7 @@ public class EndingScreenManager : MonoBehaviour
         scoreTextContent = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>(); 
 
         if(gameWon){
-            endText.text = "Congrats! You won!";
+            endText.text = "Congrats! You won :)";
         }     
         else {
             endText.text = "Game over!";

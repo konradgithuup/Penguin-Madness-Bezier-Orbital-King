@@ -10,6 +10,8 @@ public class CameraScript : MonoBehaviour
     public GameObject water;
     public GameObject clouds;
 
+    public GameObject mountains;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +24,7 @@ public class CameraScript : MonoBehaviour
     {
         // camera pos
         float y = Mathf.Max(0.0f, this.target.transform.GetChild(0).position.y);
-        float zoom = 5.0f + Mathf.Max(0.0f, this.target.transform.GetChild(0).position.y);
+        float zoom = 5.0f + Mathf.Max(Mathf.Max(0.0f, this.target.transform.GetChild(0).position.y));
         this.GetComponent<Camera>().orthographicSize = zoom;
         this.transform.position = new Vector3(this.target.transform.GetChild(0).position.x, y, this.transform.position.z);
 
@@ -30,7 +32,9 @@ public class CameraScript : MonoBehaviour
         this.water.transform.position = new Vector3(this.transform.position.x, this.water.transform.position.y, this.water.transform.position.z);
         this.clouds.transform.position = new Vector3(this.transform.position.x, this.clouds.transform.position.y, this.clouds.transform.position.z);
         this.background.transform.position = new Vector3(this.transform.position.x, this.background.transform.position.y, this.background.transform.position.z);
+        this.mountains.transform.position = new Vector3(this.transform.position.x, this.mountains.transform.position.y, this.mountains.transform.position.z);
 
-        this.water.GetComponent<SpriteRenderer>().material.SetFloat("_Speed", 0.0f + this.target.GetComponentInChildren<PlayerMovement>().vel.x);
+        this.mountains.GetComponent<SpriteRenderer>().material.SetFloat("_XOffset", this.mountains.transform.position.x);
+        this.water.GetComponent<SpriteRenderer>().material.SetFloat("_XOffset", this.water.transform.position.x);
     }
 }

@@ -84,9 +84,11 @@ public class PlatformManager : MonoBehaviour
         // Display indicator right below player's mouse position:
         this.indicator.transform.position = v3;
         this.indicator.transform.position -= new Vector3(0,0.5f,0);
+        this.indicator.transform.localScale = new Vector3(PlatformManager.nextPlatforms[selectedPlatform].GetComponent<BezierPlatform>().transform.lossyScale.x, this.indicator.transform.lossyScale.y, this.indicator.transform.lossyScale.z);
 
         // Spawn ice floe if right mouse button was pressed down:
-        if (Input.GetKeyDown(KeyCode.Mouse0)) {
+        // Input.GetKeyDown(KeyCode.Mouse0)
+        if (Input.GetKeyDown(KeyCode.Mouse0) || ShopManager.hax) {
             GameObject controller = new GameObject("platform_controller");
             controller.transform.position = v3;
             active_controllers.Add(controller);
@@ -114,25 +116,15 @@ public class PlatformManager : MonoBehaviour
             float tp0 = (p0.x - t0)/(t1 - t0);
             float tp1 = (p1.x - t0)/(t1 - t0);
 
-            if (tp0 < 0.0f)
+            if (tp0 < 0.0f || tp1 > 1.0f)
             {
                 continue;
             }
 
             float yp0 = g.transform.position.y + (platform.GetBezierPath(tp0).y/2) * g.transform.localScale.y;
-            if (yp0 < p0.y && yp0 + 0.1f > p0.y)
-            {
-                // return platform;
-            }
-
-            if (tp1 > 1.0f)
-            {
-                continue;
-            }
-
             float yp1 = g.transform.position.y + (platform.GetBezierPath(tp1).y/2) * g.transform.localScale.y;
 
-            if ((yp0 < p0.y) && (yp1 >= p1.y))
+            if ((yp0 < (p0.y + 0.1f)) && (yp1 >= (p1.y - 0.1f)))
             {
                 return platform;
             }
