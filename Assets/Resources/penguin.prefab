@@ -369,8 +369,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 2355033467940885462}
   freq: 13.5
-  damping_coeff: 0.55
-  response_coeff: 1
+  damping_coeff: 0.851
+  response_coeff: 2.32
 --- !u!1 &2355033468804975285
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,9 +503,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2355033468804975284}
-  freq: 13.5
-  damping_coeff: 0.2
-  response_coeff: 1.2
+  freq: 20
+  damping_coeff: 0.573
+  response_coeff: 0.23
 --- !u!1 &4020306341618487611
 GameObject:
   m_ObjectHideFlags: 0

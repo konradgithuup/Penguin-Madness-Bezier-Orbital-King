@@ -19,18 +19,19 @@ public class EndingScreenManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ShopManager.points += endScore;
         endText = GameObject.Find("EndMessage").GetComponent<TextMeshProUGUI>();
         menuButton = GameObject.Find("MenuButton");
         restartButton = GameObject.Find("RestartButton");
         scoreTextContent = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>(); 
 
         if(gameWon){
+            endScore += 200;
             endText.text = "Congrats! You won :)";
         }     
         else {
             endText.text = "Game over!";
         }  
+        ShopManager.points += endScore;
         scoreTextContent.text = "Score: " + endScore;
     }
 

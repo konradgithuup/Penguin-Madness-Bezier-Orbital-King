@@ -23,6 +23,7 @@ public class PlatformManager : MonoBehaviour
 
     public static int numIceFloes = 5;
     public static int selectedPlatform = 0;
+    private float place_time = 0.0f;
 
     private Boolean updateUI = true;
 
@@ -60,6 +61,7 @@ public class PlatformManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (place_time < 0.5f) { place_time += Time.deltaTime; }
         // Update UI if neccessary:
         if (updateUI)
         {
@@ -88,7 +90,7 @@ public class PlatformManager : MonoBehaviour
 
         // Spawn ice floe if right mouse button was pressed down:
         // Input.GetKeyDown(KeyCode.Mouse0)
-        if (Input.GetKeyDown(KeyCode.Mouse0) || ShopManager.hax) {
+        if ((Input.GetKeyDown(KeyCode.Mouse0) && place_time > 0.5f) || ShopManager.hax) {
             GameObject controller = new GameObject("platform_controller");
             controller.transform.position = v3;
             active_controllers.Add(controller);
@@ -101,6 +103,7 @@ public class PlatformManager : MonoBehaviour
             newPlatform.GetComponent<ShadowCaster2D>().enabled = false;
             nextPlatforms[selectedPlatform] = newPlatform;
             updateUI = true;
+            place_time = 0.0f;
         }
     }
 
@@ -124,7 +127,7 @@ public class PlatformManager : MonoBehaviour
             float yp0 = g.transform.position.y + (platform.GetBezierPath(tp0).y/2) * g.transform.localScale.y;
             float yp1 = g.transform.position.y + (platform.GetBezierPath(tp1).y/2) * g.transform.localScale.y;
 
-            if ((yp0 < (p0.y + 0.1f)) && (yp1 >= (p1.y - 0.1f)))
+            if ((yp0 < (p0.y + 0.5f)) && (yp1 >= (p1.y - 0.5f)))
             {
                 return platform;
             }
