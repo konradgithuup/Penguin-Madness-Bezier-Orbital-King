@@ -16,6 +16,7 @@ public class PlatformManager : MonoBehaviour
     void Start()
     {
         this.platform_prefab = Resources.Load("platform", typeof(GameObject)) as GameObject;
+        PlatformManager.active_platforms = new List<GameObject>();
     }
 
     // Update is called once per frame
