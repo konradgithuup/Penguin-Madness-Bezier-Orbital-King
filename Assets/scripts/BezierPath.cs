@@ -12,7 +12,7 @@ namespace gdg_playground.Assets.scripts
     public class BezierPath
     {
         [HideInInspector]
-        List<Vector2> points;
+        public List<Vector2> points;
 
         /// <summary>
         /// Getter for accessing point at specified position

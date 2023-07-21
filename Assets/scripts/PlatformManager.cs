@@ -1,27 +1,71 @@
+using gdg_playground.Assets.scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class PlatformManager : MonoBehaviour
 {
+    private IceFloeMenu iceFloeMenu;
+
     public GameObject indicator;
     private static List<GameObject> active_platforms = new List<GameObject>();
     private List<GameObject> active_controllers = new List<GameObject>();
+
+    public static GameObject[] nextPlatforms;
 
     private GameObject platform_prefab;
 
     private const float WORLD_COORD_WATER_LEVEL = -3.7f;
 
-    // Called before first frame update -> initializes ice floe prefab:
+    public static int numIceFloes = 5;
+    public static int selectedPlatform = 0;
+
+    private Boolean updateUI = true;
+
+    // Start is called before the first frame update:
     void Start()
     {
         this.platform_prefab = Resources.Load("platform", typeof(GameObject)) as GameObject;
         PlatformManager.active_platforms = new List<GameObject>();
+
+        // "buffer" platforms to display in ice floe menu:
+        nextPlatforms = new GameObject[numIceFloes];
+        for (int i = 0; i < numIceFloes; i++)
+        {
+            nextPlatforms[i] = Instantiate(this.platform_prefab);
+            nextPlatforms[i].GetComponent<SpriteRenderer>().enabled = false;
+            nextPlatforms[i].GetComponent<ShadowCaster2D>().enabled = false;
+        }
+
+        // Save instance of iceFloeMenu:
+        iceFloeMenu = GameObject.Find("Canvas").GetComponent<IceFloeMenu>();
+
+        // Display platforms in ice floe menu:
+        for (int i = 0; i < nextPlatforms.Length; i++)
+        {
+            iceFloeMenu.updateIceFloe(nextPlatforms[i].GetComponent<BezierPlatform>().surface, i);
+        }
     }
+
+    private GameObject child;
 
     // Update is called once per frame
     void Update()
     {
+        // Update UI if neccessary:
+        if (updateUI)
+        {
+            for (int i = 0; i < nextPlatforms.Length; i++)
+            {
+                iceFloeMenu.updateIceFloe(nextPlatforms[i].GetComponent<BezierPlatform>().surface, i);
+            }
+            updateUI = false;
+        }
+
         // Skip method if game is paused:
         if (PauseMenu.GameIsPaused)
         {

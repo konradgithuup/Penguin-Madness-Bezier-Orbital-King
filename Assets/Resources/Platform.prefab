@@ -129,7 +129,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: -2056365511
   m_Mesh: {fileID: 0}
-  m_InstanceId: 34304
+  m_InstanceId: 35174
   m_LocalBounds:
     m_Center: {x: 0, y: -0.125, z: 0}
     m_Extent: {x: 0.5, y: 0.375, z: 0}
@@ -145,8 +145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e730d6d3cccae34d81a9431991ac4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dx: 0
-  dy: 0
   v0: 0
   g: 9.81
   platform: {fileID: 7369855795959615423}

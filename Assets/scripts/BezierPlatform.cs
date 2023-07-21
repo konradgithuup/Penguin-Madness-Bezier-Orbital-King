@@ -6,7 +6,7 @@ using gdg_playground.Assets.scripts;
 
 public class BezierPlatform : SecondOrderDynamics
 {
-    private BezierPath surface = null;
+    public BezierPath surface = null;
 
     private GameObject platform = null;
 
@@ -64,6 +64,7 @@ public class BezierPlatform : SecondOrderDynamics
         props.SetFloat("_Control2", segment[2].y/this.platform.transform.lossyScale.y + 0.5f);
         props.SetFloat("_Anchor2", segment[3].y/this.platform.transform.lossyScale.y + 0.5f);
 
+        Material mat = this.platform_renderer.material;
         this.platform_renderer.SetPropertyBlock(props);
     }
 
