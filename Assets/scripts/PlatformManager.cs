@@ -48,18 +48,39 @@ public class PlatformManager : MonoBehaviour
 
     public static BezierPlatform CollisionCheck(Vector3 p0, Vector3 p1)
     {
-        /*
         foreach (GameObject g in PlatformManager.active_platforms)
         {
-            if (p1.x < g.transform.position.x || p0.x > g.transform.position.x + g.transform.globalScale.x)
+            BezierPlatform platform = g.GetComponent<BezierPlatform>();
+
+            float t0 = g.transform.position.x - g.transform.localScale.x/2;
+            float t1 = g.transform.position.x + g.transform.localScale.x/2;
+
+            float tp0 = (p0.x - t0)/(t1 - t0);
+            float tp1 = (p1.x - t0)/(t1 - t0);
+
+            if (tp0 < 0.0f)
             {
                 continue;
             }
-            BezierPlatform platform = p0.GetComponent<BezierPlatform>();
-            if (platform.GetBezierPath(p0.x).y > p0.x && platform.GetBezierPath(p1.x).y <= platform.GetBezierPath);
-        }
-        */
 
+            float yp0 = g.transform.position.y + (platform.GetBezierPath(tp0).y/2) * g.transform.localScale.y;
+            if (yp0 < p0.y && yp0 + 0.1f > p0.y)
+            {
+                // return platform;
+            }
+
+            if (tp1 > 1.0f)
+            {
+                continue;
+            }
+
+            float yp1 = g.transform.position.y + (platform.GetBezierPath(tp1).y/2) * g.transform.localScale.y;
+
+            if ((yp0 < p0.y) && (yp1 >= p1.y))
+            {
+                return platform;
+            }
+        }
         return null;
     }
 
