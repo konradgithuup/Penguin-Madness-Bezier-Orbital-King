@@ -14,7 +14,7 @@ namespace gdg_playground.Assets.scripts
 {
     public class ShopManager : MonoBehaviour
     {
-        public static int points;
+        public static int points = 0;
         public static int numIceFloes = 3;
         public static bool[] isPurchased = { false, false, false, false, false, false };
 
@@ -36,17 +36,7 @@ namespace gdg_playground.Assets.scripts
 
         private void Update()
         {
-            // TODO: remove
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                AddPoints(100);
-            }
-        }
-
-        public void AddPoints(int numPoints)
-        {
-            points += numPoints;
-            pointsUI.text = "Points\n" + points;
+            
         }
 
         private void UpdatePanel(ShopItemSO item, int panelID)

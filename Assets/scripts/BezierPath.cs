@@ -91,6 +91,15 @@ namespace gdg_playground.Assets.scripts
         /// </summary>
         public Vector2[] Get_Points_For_Segment(int i)
         {
+            if (points.Count < 4)
+            {
+                return new Vector2[] {
+                    new Vector2(0.0f, 1.0f),
+                    new Vector2(0.25f, 0.667f),
+                    new Vector2(0.5f, 0.333f),
+                    new Vector2(0.75f, 0.0f)
+                };
+            }
             return new Vector2[] {
                 points[i*3],
                 points[i*3 + 1],

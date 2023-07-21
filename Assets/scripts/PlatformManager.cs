@@ -31,6 +31,7 @@ public class PlatformManager : MonoBehaviour
     {
         this.platform_prefab = Resources.Load("platform", typeof(GameObject)) as GameObject;
         PlatformManager.active_platforms = new List<GameObject>();
+        EndingScreenManager.endScore = 0;
 
         // "buffer" platforms to display in ice floe menu:
         nextPlatforms = new GameObject[numIceFloes];
@@ -49,6 +50,8 @@ public class PlatformManager : MonoBehaviour
         {
             iceFloeMenu.updateIceFloe(nextPlatforms[i].GetComponent<BezierPlatform>().surface, i);
         }
+        
+        this.updateUI = true;
     }
 
     private GameObject child;
@@ -63,7 +66,7 @@ public class PlatformManager : MonoBehaviour
             {
                 iceFloeMenu.updateIceFloe(nextPlatforms[i].GetComponent<BezierPlatform>().surface, i);
             }
-            updateUI = false;
+            // updateUI = false;
         }
 
         // Skip method if game is paused:
@@ -87,7 +90,14 @@ public class PlatformManager : MonoBehaviour
             controller.transform.position = v3;
             active_controllers.Add(controller);
             Transform target = controller.transform;
-            Spawn_Platform(target);
+            Spawn_Platform(target, nextPlatforms[selectedPlatform]);
+
+            // Load new platform:
+            GameObject newPlatform = Instantiate(this.platform_prefab);
+            newPlatform.GetComponent<SpriteRenderer>().enabled = false;
+            newPlatform.GetComponent<ShadowCaster2D>().enabled = false;
+            nextPlatforms[selectedPlatform] = newPlatform;
+            updateUI = true;
         }
     }
 
@@ -132,12 +142,20 @@ public class PlatformManager : MonoBehaviour
     /// <summary>
     /// Spawns new platform (ice floe) at specified position at water level.
     /// </summary>
-    private void Spawn_Platform(Transform target) {
+    private void Spawn_Platform(Transform target, GameObject platform) {
         Vector3 spawn_point = new Vector3(target.position.x, WORLD_COORD_WATER_LEVEL-5, target.position.z);
         Debug.Log("create new platform at " + spawn_point + ", target " + target.position);
-        GameObject p = Instantiate(this.platform_prefab, spawn_point, Quaternion.identity);
-        p.GetComponent<BezierPlatform>().target = target;
+        // GameObject p = Instantiate(this.platform_prefab, spawn_point, Quaternion.identity);
+        platform.GetComponent<BezierPlatform>().update = false;
+        platform.GetComponent<BezierPlatform>().target = target;
+        platform.GetComponent<BezierPlatform>().Teleport(spawn_point);
+        platform.GetComponent<BezierPlatform>().transform.position = spawn_point;
+        platform.GetComponent<SpriteRenderer>().enabled = true;
+        platform.GetComponent<ShadowCaster2D>().enabled = true;
+        platform.GetComponent<BezierPlatform>().update = true;
+        
+        // p.GetComponent<BezierPlatform>().target = target;
 
-       active_platforms.Add(p);
+       active_platforms.Add(platform);
     }
 }

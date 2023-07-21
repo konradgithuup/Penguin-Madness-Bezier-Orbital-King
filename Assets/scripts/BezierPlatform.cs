@@ -11,6 +11,7 @@ public class BezierPlatform : SecondOrderDynamics
     private GameObject platform = null;
 
     private SpriteRenderer platform_renderer = null;
+    public bool update = false;
 
     // Start is called before the first frame update
     new void Start()
@@ -26,12 +27,32 @@ public class BezierPlatform : SecondOrderDynamics
     // Update is called once per frame
     new void Update()
     {
-        base.Update();
+        if (update)
+        {
+            base.Update();
+        }
     }
 
     public Vector2 GetBezierPath(float t)
     {
         return this.surface.Compute_Segment_At(0, t);
+    }
+
+    public void Remesh(BezierPlatform original)
+    {
+        platform.transform.localScale = new Vector3 (original.transform.lossyScale.x/platform.transform.lossyScale.x, original.transform.lossyScale.y/platform.transform.lossyScale.y, original.transform.lossyScale.z/platform.transform.lossyScale.z);
+        this.surface = original.surface;
+
+        Vector2[] segment = this.surface.Get_Points_For_Segment(0);
+        MaterialPropertyBlock props = new MaterialPropertyBlock();
+
+        props.SetFloat("_Anchor1", segment[0].y/this.platform.transform.lossyScale.y + 0.5f);
+        props.SetFloat("_Control1", segment[1].y/this.platform.transform.lossyScale.y + 0.5f);
+        props.SetFloat("_Control2", segment[2].y/this.platform.transform.lossyScale.y + 0.5f);
+        props.SetFloat("_Anchor2", segment[3].y/this.platform.transform.lossyScale.y + 0.5f);
+
+        Material mat = this.platform_renderer.material;
+        this.platform_renderer.SetPropertyBlock(props);
     }
 
     public void Remesh() {

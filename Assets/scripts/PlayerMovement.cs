@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
                 float tp0 = (transform.position.x - t0)/(t1 - t0);
                 float yp0 = this.currentPlatform.transform.position.y + (this.currentPlatform.GetBezierPath(tp0).y/2) * this.currentPlatform.transform.localScale.y;
                 this.transform.position = new Vector3(this.transform.position.x, yp0, transform.position.z);
+                EndingScreenManager.endScore += 10;
                 return;
             }
         } else

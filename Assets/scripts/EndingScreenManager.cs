@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using gdg_playground.Assets.scripts;
 
 public class EndingScreenManager : MonoBehaviour
 {
@@ -13,11 +14,12 @@ public class EndingScreenManager : MonoBehaviour
 
     public static bool gameWon = false;
 
-    public int endScore;
+    public static int endScore = 0;
 
     // Start is called before the first frame update
     void Start()
-    {   
+    {
+        ShopManager.points += endScore;
         endText = GameObject.Find("EndMessage").GetComponent<TextMeshProUGUI>();
         menuButton = GameObject.Find("MenuButton");
         restartButton = GameObject.Find("RestartButton");
@@ -29,8 +31,6 @@ public class EndingScreenManager : MonoBehaviour
         else {
             endText.text = "Game over!";
         }  
-
-        endScore = 4000;
         scoreTextContent.text = "Score: " + endScore;
     }
 

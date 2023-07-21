@@ -92,6 +92,8 @@
      <Compile Include="Assets\scripts\shop components\PurchaseButton.cs" />
      <Compile Include="Assets\scripts\IceFloeMenu.cs" />
      <Compile Include="Assets\scripts\IceFloePolygon.cs" />
+     <Compile Include="Assets\scripts\EndingScreenManager.cs" />
+     <Compile Include="Assets\scripts\EndingListener.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
