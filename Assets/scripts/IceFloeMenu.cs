@@ -25,14 +25,14 @@ public class IceFloeMenu : MonoBehaviour
     void Start()
     {
         // Deactivate not unlocked panels:
-        for (int i = IceFloePanels.Length - 1; i >= PlatformManager.numIceFloes; i--)
+        for (int i = IceFloePanels.Length - 1; i >= ShopManager.numIceFloes; i--)
         {
             IceFloePanels[i].SetActive(false);
         }
 
         // Copy unlocked panels into new array (for convenience):
-        activePanels = new GameObject[PlatformManager.numIceFloes];
-        for (int i = 0; i < PlatformManager.numIceFloes; i++)
+        activePanels = new GameObject[ShopManager.numIceFloes];
+        for (int i = 0; i < ShopManager.numIceFloes; i++)
         {
             activePanels[i] = IceFloePanels[i];
         }
@@ -55,7 +55,7 @@ public class IceFloeMenu : MonoBehaviour
     void Update()
     {
         // look for press of number buttons and select specified panel:
-        for (int i = 0; i < PlatformManager.numIceFloes; i++)
+        for (int i = 0; i < ShopManager.numIceFloes; i++)
         {
             if (Input.GetKeyDown(keyCodes[i][0]) || Input.GetKeyDown(keyCodes[i][1]))
             {

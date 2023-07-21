@@ -32,6 +32,7 @@ public class PlatformManager : MonoBehaviour
         this.platform_prefab = Resources.Load("platform", typeof(GameObject)) as GameObject;
         PlatformManager.active_platforms = new List<GameObject>();
         EndingScreenManager.endScore = 0;
+        PlatformManager.numIceFloes = ShopManager.numIceFloes;        
 
         // "buffer" platforms to display in ice floe menu:
         nextPlatforms = new GameObject[numIceFloes];
