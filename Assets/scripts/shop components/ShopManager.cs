@@ -13,7 +13,7 @@ namespace gdg_playground.Assets.scripts
 {
     public class ShopManager : MonoBehaviour
     {
-        public int points;
+        public static int points;
         public TMP_Text pointsUI;
         public ShopItemSO[] shopItemsSo;
         public GameObject[] shopPanelsGo;

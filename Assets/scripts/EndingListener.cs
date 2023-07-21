@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EndingListener : MonoBehaviour
 {
@@ -8,11 +9,13 @@ public class EndingListener : MonoBehaviour
 
     public static Vector3 penguSpeed;
     public static int /*Datentyp ändern falls nötig*/ penguHeight = 3;
+    public static int endScore = 40000;
 
     public GameObject winText;
     public GameObject loseText;
     public GameObject restartButton;
     public GameObject menuButton;
+    public TextMeshProUGUI scoreTextContent;
 
     private bool gameWon = false;
     private bool gameLost = false;
@@ -26,6 +29,8 @@ public class EndingListener : MonoBehaviour
         loseText = GameObject.Find("LoseText");
         menuButton = GameObject.Find("MenuButton");
         restartButton = GameObject.Find("RestartButton");
+        scoreTextContent = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+
         winText.SetActive(false);
         loseText.SetActive(false);
         menuButton.SetActive(false);
@@ -50,17 +55,21 @@ public class EndingListener : MonoBehaviour
         } 
 
         if(winText.transform.localPosition.y <= endTextY || loseText.transform.localPosition.y <= endTextY){
+            winText.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
+            loseText.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
             menuButton.SetActive(true);
             restartButton.SetActive(true);
-            Time.timeScale = 0f;
+            scoreTextContent.text = "Score: " + endScore;
         }
     }
 
     public void WinGame(){
+//        cameraSpeed = 0;
         gameWon = true;
     }
 
     public void LoseGame(){
+//        cameraSpeed = 0;
         gameLost = true;
     }
 }

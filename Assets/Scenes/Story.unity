@@ -1997,12 +1997,12 @@ MonoBehaviour:
   m_text: "Der Pinguin Tux war schon immer ein besonderer Pinguin. Statt ins Wasser
     hat es ihn immer in die entgegengesetzte Richtung gezogen - in die Luft. So bewunderte
     er alles, dass durch die Luft flog und malte sich aus, selbst eines Tages dort
-    oben zu fliegen. Alle redeten ihm diese Idee aus und sagten, dass Pinguine ins
-    Wasser geh\xF6ren.. Tux wollte das nicht auf sich sitzen lassen und beschloss,
-    h\xF6her als jeder Vogel zu fliegen: Bis in den Weltraum! Er studierte Computer
+    oben zu fliegen.\nAlle redeten ihm diese Idee aus und sagten, dass Pinguine ins
+    Wasser geh\xF6ren... Tux wollte das nicht auf sich sitzen lassen und beschloss,
+    h\xF6her als jeder Vogel zu fliegen: Bis in den Weltraum!\nEr studierte Computer
     Science und Rocket Science und erfuhr so von Bezierkurven und Raketen-Antrieb.
-    Nun nutzt er sein gelerntes Wissen, um sein Lebensziel zu erf\xFCllen: In den\nWeltraum
-    zu reisen..."
+    Nun nutzt er sein gelerntes Wissen, um sein Lebensziel zu erf\xFCllen: In den
+    Weltraum zu reisen..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 160650ad4f84fc44cb2e49291eecd3b3, type: 2}
   m_sharedMaterial: {fileID: -6626210148393227029, guid: 160650ad4f84fc44cb2e49291eecd3b3, type: 2}
